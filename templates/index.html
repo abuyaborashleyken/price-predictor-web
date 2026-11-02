@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Predictor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>House Price Estimator</h1>
+        <p class="subtitle">Get an instant estimate based on location and property details.</p>
+
+        <form method="POST">
+            <div class="field">
+                <label for="province">Province</label>
+                <select id="province" name="province">
+                    {% for p in provinces %}
+                        <option value="{{ p }}">{{ p }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="floor_area_sqm">Floor area (sqm)</label>
+                <input type="number" id="floor_area_sqm" name="floor_area_sqm" value="80" step="0.1" min="10" required>
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="bedrooms">Bedrooms</label>
+                    <input type="number" id="bedrooms" name="bedrooms" value="3" min="1" required>
+                </div>
+                <div class="field">
+                    <label for="bathrooms">Bathrooms</label>
+                    <input type="number" id="bathrooms" name="bathrooms" value="2" min="1" required>
+                </div>
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="age_years">Age (years)</label>
+                    <input type="number" id="age_years" name="age_years" value="5" min="0" required>
+                </div>
+                <div class="field">
+                    <label for="distance_to_cbd_km">Distance to city center (km)</label>
+                    <input type="number" id="distance_to_cbd_km" name="distance_to_cbd_km" value="10" step="0.1" min="0" required>
+                </div>
+            </div>
+
+            <button type="submit">Estimate Price</button>
+        </form>
+
+        {% if prediction %}
+            <div class="result">
+                <span class="result-label">Estimated price</span>
+                <span class="result-value">{{ prediction }}</span>
+            </div>
+        {% endif %}
+
+        <p class="footnote">Based on a model trained on synthetic data — for learning purposes, not actual market valuation.</p>
+    </div>
+</body>
+</html>
